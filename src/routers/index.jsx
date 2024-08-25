@@ -10,6 +10,7 @@ import HistoryPage from "../pages/History";
 import WinLossReportPage from "../pages/WinLossReport";
 import Login from "../pages/Auth/Login";
 import Games from "../pages/Games";
+import Register from "../pages/Auth/Register";
 
 const routers = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const routers = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 
