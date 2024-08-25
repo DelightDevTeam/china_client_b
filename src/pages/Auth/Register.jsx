@@ -4,10 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import BASE_URL from '../../hooks/baseURL';
 
-export default function Login() {
+export default function Register() {
   const [eye, setEye] = useState(false);
+  const [cEye,setCEye]=useState(false);
     const [name, setName] = useState('');
+    const [phone,setPhone]=useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword,setConfirmPassword]=useState('')
     const [error , setError] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success , setSuccess] = useState('');
@@ -25,60 +28,7 @@ export default function Login() {
         }
       }, [auth, navigate]);
 
-      const login = (e) =>{
-        e.preventDefault();
-        setLoading(true);
-        const loginData = {
-            user_name: name,
-            password: password
-        };
-        // console.log(loginData);
-        
-        fetch(BASE_URL + '/login', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(loginData)
-        })
-          .then(async response => {
-            if (!response.ok) {
-              setLoading(false);
-              let errorData;
-              try {
-                errorData = await response.json();
-              } catch (error) {
-                console.error('Error parsing JSON:', error);
-              }
-        
-              if (response.status === 422) {
-                setErrMsg("");
-                setError(errorData.errors);
-              }else if (response.status === 401) {
-                setError("");
-                setErrMsg(errorData.message)
-                // console.log(errorData.message);
-              }else{
-              }
-              throw new Error('Login Failed');
-            }
-            return response.json();
-          })
-          .then(data => {
-            setData(data);
-            setLoading(false);
-            if (data.data.token) {
-                localStorage.setItem('token', data.data.token);
-                // window.location.href = "/";
-                // console.log("success");
-            } else {
-                throw new Error('Token not found in response');
-            }
-          })
-          .catch(error => {
-          });
-      }
+     
 
 
   return (
@@ -90,8 +40,8 @@ export default function Login() {
                         <img src={logo} width={100} className='rounded-3 shadow border border-warning' alt="" />
                     </div>
                     
-                    <h4 className="text-center">{language === "english" ? "Login" : "အကောင့်ဝင်ရန်"}</h4>
-                    <form onSubmit={login}>
+                    <h4 className="text-center">{language === "english" ? "Register" : "အကောင့်ပြုလုပ်ရန်"}</h4>
+                    <form  >
                         <div className="mb-3">
                             <label htmlFor="" className="form-label">{language === "english" ? "Username" : "အမည်"}</label>
                             <input type="text" 
@@ -101,6 +51,17 @@ export default function Login() {
                             placeholder='Enter Username'
                             />
                             {error && error.user_name && <p className="text-danger">{error.user_name}</p>}
+                            {errMsg && <p className="text-danger">{errMsg}</p>}
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="" className="form-label">{language === "english" ? "Phone Number" : "ဖုန်းနံပါတ်"}</label>
+                            <input type="text" 
+                            className="form-control" 
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            placeholder='Enter Phone Number'
+                            />
+                            {error && error.phone && <p className="text-danger">{error.phone}</p>}
                             {errMsg && <p className="text-danger">{errMsg}</p>}
                         </div>
                         <div className="mb-3">
@@ -117,13 +78,27 @@ export default function Login() {
 
                             {error && error.password && <p className="text-danger">{error.password}</p>}
                         </div>
+                        <div className="mb-3">
+                            <label htmlFor="" className="form-label">{language === "english" ? "Confirm Password" : "စကားဝှက်အတည်ပြုပါ"}</label>
+                            <div className="password">
+                              <input type={`${cEye ? "text" : "password"}`} 
+                              className="form-control" 
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                              placeholder='Enter Confirm Password'
+                              />
+                              <i className={`fas fa-${cEye ? "eye-slash" : "eye"} cursor-pointer eye`} onClick={()=>setCEye(!cEye)}></i>
+                            </div>
+
+                            {error && error.confirmPassword && <p className="text-danger">{error.confirmPassword}</p>}
+                        </div>
                         <div className="mt-2 mb-3">
                             {loading ? <Spinner /> : <button type='submit' className="btn btn-outline-light w-100">
-                              {language === "english" ? "Login" : "အကောင့်ဝင်ပါ"}
+                              {language === "english" ? "Register" : "အကောင့်ပြုလုပ်ပါ"}
                             </button>}
                         </div>
                         <div className="text-center">
-                        <Link className='underline' to={'/register'}>အကောင့်ပြုလုပ်ရန်</Link>
+                        <Link className='underline' to={'/login'}>အကောင့်ဝင်ရန်</Link>
                         </div>
                     </form>
                 </div>
