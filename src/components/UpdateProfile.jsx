@@ -7,7 +7,7 @@ import { Form, Modal, Spinner } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import BASE_URL from "../hooks/baseURL";
 
-export default function UpdateProfile({ user }) {
+export default function UpdateProfile({ user, content }) {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const language = localStorage.getItem("lan");
   const [name, setName] = useState("");
@@ -99,7 +99,7 @@ export default function UpdateProfile({ user }) {
             onClick={() => setIsEditProfileModalOpen(true)}
             className="w-full loginBtn py-1 mt-4"
           >
-            {language == "english" ? "Edit Profile" : "ပရိုဖိုင်ပြင်ရန်"}
+            {content?.update_profile}
           </button>
         </div>
       </div>
@@ -111,11 +111,9 @@ export default function UpdateProfile({ user }) {
         onHide={() => setIsEditProfileModalOpen(false)}
       >
         <Modal.Body>
-          <h5>{language == "english" ? "Edit Profile" : "ပရိုဖိုင်ပြင်ရန်"}</h5>
+          <h5>{content?.update_profile}</h5>
           <small className="d-block mb-3">
-            {language === "english"
-              ? "Please fill all the required fields."
-              : "ကျေးဇူးပြု၍ အချက်အလက်များဖြည့်ပါ။"}
+            {content?.please_fill}
           </small>
           <Form onSubmit={updateProfile}>
             <div className="row">
@@ -125,12 +123,12 @@ export default function UpdateProfile({ user }) {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>
-                    {language === "english" ? "Name" : "နာမည်"}
+                    {content?.name}
                   </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder={
-                      language === "english" ? "Enter Name" : "နာမည်ရေးပါ။"
+                      content?.enter_name
                     }
                     onChange={e => setName(e.target.value)}
                     value={name}
@@ -141,12 +139,12 @@ export default function UpdateProfile({ user }) {
             </div>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>
-                {language === "english" ? "Phone" : "ဖုန်း"}
+                {content?.phone}
               </Form.Label>
               <Form.Control
                 type="text"
                 placeholder={
-                  language === "english" ? "Enter Phone" : "ဖုန်းနံပါတ်ထည့်ပါ။"
+                  content?.enter_phone
                 }
                 onChange={e => setPhone(e.target.value)}
                 value={phone}
@@ -157,7 +155,7 @@ export default function UpdateProfile({ user }) {
               <button className="loginBtn py-2 w-100 rounded-3" type="submit">
                 {loading ? <Spinner animation="border" size="sm" /> : (
                   <small className="fw-semibold">
-                    {language === "english" ? "Apply Changes" : "အတည်ပြုသည်"}
+                    {content?.save_changes}
                   </small>
                 )}
               </button>

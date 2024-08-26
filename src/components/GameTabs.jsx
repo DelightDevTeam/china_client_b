@@ -1,37 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import BASE_URL from "../hooks/baseURL";
 import { Link, useNavigate } from "react-router-dom";
 import HotGames from "./HotGames";
+import { AuthContext } from "../contexts/AuthContext";
 
 const GameTabs = () => {
+  const { content, auth } = useContext(AuthContext);
   const [selectedTab, setSelectedTab] = useState("All Games");
-  const auth = localStorage.getItem("token");
   const navigate = useNavigate();
   const tabs = [
     {
-      name: "All Games",
-      mm_name: "ဂိမ်းအားလုံး",
+      name: content?.all_games,
+      value: "All Games"
     },
     {
-      name: "Hot Games",
-      mm_name: "ဟော့ဂိမ်း",
+      name: content?.hot_games,
+      value: "Hot Games"
     },
     {
-      name: "Slot",
-      mm_name: "စလော့",
+      name: content?.slot,
+      value: "Slot"
     },
     {
-      name: "Live Casino",
-      mm_name: "လိုက်ဖ်ကာစီနို",
+      name: content?.casino,
+      value: "Live Casino"
     },
     {
-      name: "Sport Book",
-      mm_name: "အားကစား",
+      name: content?.sports,
+      value: "Sport Book"
     },
     {
-      name: "Fishing",
-      mm_name: "ငါးပစ်",
+      name: content?.fishing,
+      value: "Fishing"
     },
   ];
 
@@ -87,29 +88,31 @@ const GameTabs = () => {
       });
   };
 
-  const language = localStorage.getItem("lan");
-
   return (
     <div className="cursor-pointer mb-5 ">
       <div className="gameTitleContainer mt-4 mb-3 d-flex align-items-center gap-3 gap-sm-4">
         {tabs.map((tab, index) => {
           return (
             <p
-              onClick={() => setSelectedTab(tab.name)}
+              onClick={() => setSelectedTab(tab.value)}
               className={`${
-                selectedTab === tab.name ? "activeGameTab" : ""
+                selectedTab === tab.value ? "activeGameTab" : ""
               } gameTitle fw-semibold`}
               key={index}
             >
-              {language === "english" ? tab.name : tab.mm_name}
+              {tab.name}
             </p>
           );
         })}
       </div>
-      <h5 className="fw-bold">{selectedTab !== "All Games" && selectedTab}</h5>
+      {tabs.map((tab, index) => {
+        <h5 className="fw-bold" key={index}>{selectedTab === tab.value ? tab.name : ""}</h5>
+      })
+      }
+      
       {selectedTab === "All Games" && (
         <>
-          <h5 className="fw-bold mb-2 "> {language === "english" ? "Slot" : "စလော့"}</h5>
+          <h5 className="fw-bold mb-2 "> {content?.slot}</h5>
           <div className="row px-2">
             {slot_lists &&
               slot_lists.map((item, index) => {
@@ -150,7 +153,7 @@ const GameTabs = () => {
                 );
               })}
           </div>
-          <h5 className="fw-bold mb-2 mt-4"> {language === "english" ? "Live Casino" : "လိုက်ဖ်ကာစီနို"}</h5>
+          <h5 className="fw-bold mb-2 mt-4"> {content?.casino}</h5>
           <div className="row px-2">
             {casinos_lists &&
               casinos_lists.map((item, index) => {
@@ -191,7 +194,7 @@ const GameTabs = () => {
                 );
               })}
           </div>
-          <h5 className="fw-bold mb-2  mt-4">{language === "english" ? "Sport Book" : "အားကစား"}</h5>
+          <h5 className="fw-bold mb-2  mt-4">{content?.sports}</h5>
           <div className="row px-2">
             {sports_lists &&
               sports_lists.map((item, index) => {
@@ -232,7 +235,7 @@ const GameTabs = () => {
                 );
               })}
           </div>
-          <h5 className="fw-bold mb-2  mt-4">{language === "english" ? "Fishing" : "ငါးပစ်"}</h5>
+          <h5 className="fw-bold mb-2  mt-4">{content?.fishing}</h5>
           <div className="row px-2">
             {fish_lists &&
               fish_lists.map((item, index) => {

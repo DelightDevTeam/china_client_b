@@ -6,7 +6,7 @@ import BASE_URL from '../../hooks/baseURL';
 
 export default function Login() {
   const [eye, setEye] = useState(false);
-    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [error , setError] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -29,7 +29,7 @@ export default function Login() {
         e.preventDefault();
         setLoading(true);
         const loginData = {
-            user_name: name,
+            phone: phone,
             password: password
         };
         // console.log(loginData);
@@ -96,11 +96,11 @@ export default function Login() {
                             <label htmlFor="" className="form-label">{language === "english" ? "Username" : "အမည်"}</label>
                             <input type="text" 
                             className="form-control" 
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder='Enter Username'
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            placeholder='Enter Phone'
                             />
-                            {error && error.user_name && <p className="text-danger">{error.user_name}</p>}
+                            {error && error.phone && <p className="text-danger">{error.phone}</p>}
                             {errMsg && <p className="text-danger">{errMsg}</p>}
                         </div>
                         <div className="mb-3">

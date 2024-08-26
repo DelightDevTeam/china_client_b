@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <div className='py-2 py-sm-3 px-1 px-sm-2 px-lg-4 d-flex align-items-center justify-content-between'>
       <Link to={'/'}>
-      <img src={logo} className='logo' />
+      <img src={logo} width={60} />
       </Link>
       {/* <button onClick={()=>setIsLoginOpen(true)} className="primaryBtn py-2 px-4">Login</button> */}
       <div className="d-flex align-items-center gap-4">

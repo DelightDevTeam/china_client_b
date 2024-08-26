@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import FixedBottom from "./FixedBottom";
@@ -6,20 +6,26 @@ import { Modal } from "react-bootstrap";
 import { CgClose } from "react-icons/cg";
 import useFetch from "../hooks/useFetch";
 import BASE_URL from "../hooks/baseURL";
+import en_data from "../lang/en";
+import ch_data from "../lang/ch";
+import { AuthContext, AuthContextProvider } from "../contexts/AuthContext";
+import Header from "./Header";
 
 const Layout = () => {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(true);
   const {data: ads} = useFetch(BASE_URL + '/popup-ads-banner');
-  // console.log(ads);
 
   const auth = localStorage.getItem("token");
 
-  const lan = localStorage.getItem('lan');
-  const [language, setLanguage] = useState("english");
-  useEffect(() => {
-    setLanguage(lan);
-  }, [lan]);
+  // const lan = localStorage.getItem('lan');
+
+
+
+  // const [language, setLanguage] = useState("english");
+  // useEffect(() => {
+  //   setLanguage(lan);
+  // }, [lan]);
 
   const navigate = useNavigate();
 
@@ -30,11 +36,10 @@ const Layout = () => {
   // }
   
   return (
+    <AuthContextProvider>
     <div>
       {location.pathname === "/" && (
-        <div className="welcomeText   text-center py-2 text-white">
-          {lan === "english" ? "Welcome To Super Bet" : "Super Bet မှ ကြိုဆိုပါတယ်။"}
-        </div>
+        <Header />
       )}
       <Modal
         className="adsModal"
@@ -65,6 +70,7 @@ const Layout = () => {
       <Outlet />
       <FixedBottom />
     </div>
+    </AuthContextProvider>
   );
 };
 
