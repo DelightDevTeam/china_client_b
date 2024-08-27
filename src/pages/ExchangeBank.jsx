@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CurrentBalance from '../components/CurrentBalance'
 import kpay from '../assets/images/kpay.png' 
 import wave from '../assets/images/wave.png' 
@@ -7,9 +7,11 @@ import aya from '../assets/images/aya.png'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch'
 import BASE_URL from '../hooks/baseURL'
+import { AuthContext } from '../contexts/AuthContext'
 
 const ExchangeBank = () => {
-    const auth = localStorage.getItem("token");
+    const { auth, content } = useContext(AuthContext)
+    // const auth = localStorage.getItem("token");
     const navigate = useNavigate();
     useEffect(() => {
         if(!auth){
@@ -31,7 +33,7 @@ const ExchangeBank = () => {
 
     const {data: banks} = useFetch(url);
     // console.log(banks);
-    // return;
+    
 
     const {data: user} = useFetch(BASE_URL + '/user');
     const language = localStorage.getItem("lan");
@@ -39,7 +41,7 @@ const ExchangeBank = () => {
   return (
     <div className='py-4 px-3 px-sm-4'>
         <CurrentBalance user={user} />
-        <p className=" my-4 fw-bold">{language === "english" ? "Choose Payment Method" : "ငွေပေးချေမှု နည်းလမ်းရွေးပါ။"}</p>
+        <p className=" my-4 fw-bold">{content?.choose_payment_method}</p>
         <div className="row">
             {type === "top-up" && (
                 banks && banks.map((item, index)=>{

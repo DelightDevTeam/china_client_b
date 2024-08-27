@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Badge, Button, ButtonGroup, Form } from "react-bootstrap";
 import "../assets/css/history.css";
 import { DataGrid } from "@mui/x-data-grid";
 import useFetch from "../hooks/useFetch";
 import BASE_URL from "../hooks/baseURL";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 const trans_columns = [
   {
@@ -34,8 +35,38 @@ const trans_columns = [
   },
 ];
 
+const trans_columns_ch = [
+  {
+    field: "id",
+    headerName: "编号",
+    width: 150,
+  },
+  {
+    field: "closing_balance",
+    headerName: "期末余额",
+    width: 150,
+  },
+  {
+    field: "type",
+    headerName: "类型",
+    width: 150,
+  },
+  {
+    field: "amount",
+    headerName: "数量",
+    width: 150,
+  },
+  { 
+    field: "datetime", 
+    headerName: "日期时间", 
+    width: 200 
+  },
+]
+
 const WinLossReportPage = () => {
-  const auth = localStorage.getItem("token");
+  const { content, auth, lan } = useContext(AuthContext)
+  console.log(lan);
+  
   const navigate = useNavigate();
   useEffect(() => {
     if(!auth){
@@ -54,15 +85,14 @@ const WinLossReportPage = () => {
     BASE_URL + "/transactions?type=" + tParam
   );
 
-  const language = localStorage.getItem("lan");
-
   return (
     <div
       className="history pt-4 pb-5 px-3 px-sm-4"
       style={{ overflowX: "hidden" }}
     >
       <h5 className="fw-semibold text-white">
-        {language === "english" ? "Win/Loss Report" : "နိုင်/ရှုံး မှတ်တမ်း"}
+        {content?.win_loss_report}
+        {/* {language === "english" ? "Win/Loss Report" : "နိုင်/ရှုံး မှတ်တမ်း"} */}
       </h5>
       <div className=" historyContainer mb-5  mt-4 p-3 rounded-3 ">
         <div className="mb-4 d-flex flex-wrap flex-sm-nowrap align-items-center gap-4">
@@ -70,44 +100,44 @@ const WinLossReportPage = () => {
             className={`btn btn-${!show ? "light" : "outline-light"}`}
             onClick={(e) => setShow(false)}
           >
-            Game​ Logs
+            {content?.game_logs}
           </button>
           <button
             className={`btn btn-${show ? "light" : "outline-light"}`}
             onClick={(e) => setShow(true)}
           >
-            Transaction Logs
+            {content?.transaction_logs}
           </button>
         </div>
         {!show && (
           <div className="mb-4 d-flex gap-2">
             <button className={`btn btn-sm btn-${gParam === 'today' ? "light" : "outline-light"}`} onClick={() => setGParam("today")}>
-              Today
+              {content?.today}
             </button>
             <button className={`btn btn-sm btn-${gParam === 'yesterday' ? "light" : "outline-light"}`} onClick={() => setGParam("yesterday")}>
-              Yesterday
+              {content?.yesterday}
             </button>
             <button className={`btn btn-sm btn-${gParam === 'this_week' ? "light" : "outline-light"}`} onClick={() => setGParam("this_week")}>
-              This Week
+              {content?.this_week}
             </button>
             <button className={`btn btn-sm btn-${gParam === 'last_week' ? "light" : "outline-light"}`} onClick={() => setGParam("last_week")}>
-              Last Week
+              {content?.last_week}
             </button>
           </div>
         )}
         {show && (
           <div className="mb-4 d-flex gap-2">
             <button className={`btn btn-sm btn-${tParam === 'today' ? "light" : "outline-light"}`} onClick={() => setTParam("today")}>
-              Today
+            {content?.today}
             </button>
             <button className={`btn btn-sm btn-${tParam === 'yesterday' ? "light" : "outline-light"}`} onClick={() => setTParam("yesterday")}>
-              Yesterday
+            {content?.yesterday}
             </button>
             <button className={`btn btn-sm btn-${tParam === 'this_week' ? "light" : "outline-light"}`} onClick={() => setTParam("this_week")}>
-              This Week
+            {content?.this_week}
             </button>
             <button className={`btn btn-sm btn-${tParam === 'last_week' ? "light" : "outline-light"}`} onClick={() => setTParam("last_week")}>
-              Last Week
+            {content?.last_week}
             </button>
           </div>
         )}
@@ -115,7 +145,7 @@ const WinLossReportPage = () => {
         {show && (
           <DataGrid
             rows={t_logs && t_logs}
-            columns={trans_columns}
+            columns={lan === "en" ? trans_columns : trans_columns_ch}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
@@ -130,13 +160,13 @@ const WinLossReportPage = () => {
             <table className="table text-center">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>From</th>
-                  <th>To</th>
-                  <th>Game Provider</th>
-                  <th>Count</th>
-                  <th>Bet Amount</th>
-                  <th>Transaction Amount</th>
+                  <th>{content?.number}</th>
+                  <th>{content?.from_date}</th>
+                  <th>{content?.to_date}</th>
+                  <th>{content?.game_providers}</th>
+                  <th>{content?.count}</th>
+                  <th>{content?.bet_amount}</th>
+                  <th>{content?.trans_amount}</th>
                 </tr>
               </thead>
               <tbody>

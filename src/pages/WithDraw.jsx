@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../assets/css/topup.css";
 import { Form, Spinner } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import BASE_URL from "../hooks/baseURL";
 import { toast, ToastContainer } from "react-toastify";
+import { AuthContext } from "../contexts/AuthContext";
 
 const WithDrawPage = () => {
-  const auth = localStorage.getItem("token");
+  const {auth, lan, content} = useContext(AuthContext);
+  // const auth = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
     if(!auth){
@@ -112,7 +114,7 @@ const WithDrawPage = () => {
         const data = await response.json();
         setLoading(false);
     
-        toast.success("ငွေထုတ်လွှာ ပို့ပြီးပါပြီ။", {
+        toast.success("Submitted successfully.", {
           position: "top-right",
           autoClose: 1000,
           theme: 'dark',
@@ -128,23 +130,22 @@ const WithDrawPage = () => {
         setLoading(false);
       }
   }
-  const language = localStorage.getItem("lan");
 
   return (
     <div className="py-4 px-3 px-sm-4 pb-5 mb-5">
         <ToastContainer />
       <div className="topupContainer p-3 rounded-3">
-        <h5 className="fw-bold">{language === "english" ? "Withdraw" : "ငွေထုတ်"}</h5>
+        <h5 className="fw-bold">{content?.withdraw}</h5>
         <img src={bank && bank.image_url} width={100} className="rounded-4 shadow mt-3" alt="" />
-        <small className="d-block mt-3">{language === "english" ? "Please fill all the required fields.*" : "ပမာဏကျေးဇူးပြု၍ အောက်ပါ အချက်များကို ထည့်ပေးပါ။"}</small>
+        <small className="d-block mt-3">{content?.please_fill}</small>
         <form onSubmit={withdraw}>
         <div className="row my-3">
           <div className="col-sm-6 pe-2">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>{language === "english" ? "Account Name*" : "အကောင့်နာမည်"}</Form.Label>
+              <Form.Label>{content?.account_name}</Form.Label>
               <Form.Control 
               type="text" 
-              placeholder={language === "english" ? "Account Name*" : "အကောင့်နာမည်"}
+              placeholder={content?.enter_account_name}
               onChange={e => setAccountName(e.target.value)} 
               value={accountName}
               />
@@ -155,10 +156,10 @@ const WithDrawPage = () => {
           </div>
           <div className="col-sm-6 ">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>{language === "english" ? "Account / Phone No. *" : "အကောင့် (သို့) ဖုန်း"}</Form.Label>
+              <Form.Label>{content?.account}</Form.Label>
               <Form.Control 
               type="text" 
-              placeholder={language === "english" ? "Account / Phone No. *" : "အကောင့် (သို့) ဖုန်း"}
+              placeholder={content?.enter_account}
               onChange={e => setAccountNo(e.target.value)}
               value={accountNo}
               />
@@ -171,10 +172,10 @@ const WithDrawPage = () => {
         <div className="row my-3">
           <div className="col-sm-6 pe-2">
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>{language === "english" ? "Amount*" : "ပမာဏ"}</Form.Label>
+              <Form.Label>{content?.amount}</Form.Label>
               <Form.Control 
               type="number" 
-              placeholder={language === "english" ? "Amount*" : "ပမာဏ"}
+              placeholder={content?.enter_amount}
               onChange={e => setAmount(e.target.value)}
               value={amount}
               />
@@ -182,9 +183,9 @@ const WithDrawPage = () => {
           </div>
           <div className="col-sm-6 pe-2">
             <Form.Group className="mb-4" controlId="exampleForm.ControlTextarea1">
-                <Form.Label>{language === "english" ? "Note* (Optional)" : "မှတ်စု"}</Form.Label>
+                <Form.Label>{content?.note}</Form.Label>
                 <Form.Control
-                    placeholder={language === "english" ? "Write Your Note" : "မှတ်စု ရေးပါ။"}
+                    placeholder={content?.enter_note}
                     as="textarea"
                     rows={3}
                     onChange={e => setNote(e.target.value)}
@@ -195,7 +196,7 @@ const WithDrawPage = () => {
         </div>
         
         {loading ? <Spinner /> : <button className="loginBtn w-full fw-bold py-2 rounded-3" type="submit">
-          {language === "english" ? "Submit" : "တင်သွင်းသည်"}
+          {content?.submit}
         </button>}
         
         </form>

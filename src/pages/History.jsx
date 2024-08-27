@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Badge, Button, ButtonGroup, Form } from "react-bootstrap";
 import "../assets/css/history.css";
 import { DataGrid } from "@mui/x-data-grid";
 import useFetch from "../hooks/useFetch";
 import BASE_URL from "../hooks/baseURL";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 const deposits = [
   { field: "id", headerName: "No", width: 150},
@@ -25,20 +26,20 @@ const deposits = [
   },
 ];
 const deposits_mm = [
-  { field: "id", headerName: "နံပါတ်", width: 150},
-  { field: "payment_type", headerName: "ဘဏ်", width: 150 },
-  { field: "status", headerName: "အခြေအနေ", width: 150 },
-  { field: "refrence_no", headerName: "ငွေလွှဲနံပါတ်", width: 150 },
+  { field: "id", headerName: "编号", width: 150},
+  { field: "payment_type", headerName: "银行", width: 150 },
+  { field: "status", headerName: "地位", width: 150 },
+  { field: "refrence_no", headerName: "参考号", width: 150 },
   // { field: "account_no", headerName: "Account No", width: 150 },
   {
     field: "amount",
-    headerName: "ပမာဏ (ကျပ်)",
+    headerName: "数量",
     type: "number",
     width: 150,
   },
   {
     field: "datetime",
-    headerName: "နေ့ရက်",
+    headerName: "日期时间",
     width: 180,
   },
 ];
@@ -61,25 +62,25 @@ const withdraws = [
   },
 ];
 const withdraws_mm = [
-  { field: "id", headerName: "နံပါတ်", width: 150},
-  { field: "account_name", headerName: "အကောင့်နာမည်", width: 150 },
-  { field: "account_no", headerName: "အကောင့်နံပါတ်", width: 150 },
-  { field: "status", headerName: "အခြေအနေ", width: 150 },
+  { field: "id", headerName: "编号", width: 150},
+  { field: "account_name", headerName: "银行账户名称", width: 150 },
+  { field: "account_no", headerName: "银行帐号", width: 150 },
+  { field: "status", headerName: "地位", width: 150 },
   {
     field: "amount",
-    headerName: "ပမာဏ (ကျပ်)",
+    headerName: "数量",
     type: "number",
     width: 150,
   },
   {
     field: "datetime",
-    headerName: "နေ့ရက်",
+    headerName: "日期时间",
     width: 180,
   },
 ];
 
 const HistoryPage = () => {
-  const auth = localStorage.getItem("token");
+  const {auth, content, lan} = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     if(!auth){
@@ -98,26 +99,6 @@ const HistoryPage = () => {
       style={{ overflowX: "hidden" }}
     >
       <div className="row">
-        {/* <Form.Group
-          className="col-6 col-sm-4 pe-2 mt-3"
-          controlId="formBasicEmail"
-        >
-          <Form.Label>Start Date</Form.Label>
-          <Form.Control type="date" />
-        </Form.Group>
-        <Form.Group
-          className="col-6 col-sm-4 pe-2 mt-3"
-          controlId="formBasicEmail"
-        >
-          <Form.Label>End Date</Form.Label>
-          <Form.Control type="date" />
-        </Form.Group> */}
-        {/* <button
-          style={{ height: "max-content" }}
-          className="mx-auto mt-3 mt-sm-5  col-10 col-sm-4 col-xl-3 px-2 loginBtn py-1 px-3 rounded-3 fw-semibold"
-        >
-          <small>Show Results</small>
-        </button> */}
       </div>
       <div className=" historyContainer mb-5  mt-4 p-3 rounded-3 ">
         <div className="mb-4 d-flex flex-wrap flex-sm-nowrap align-items-center gap-4">
@@ -126,7 +107,7 @@ const HistoryPage = () => {
               className="bg-white text-black d-flex flex-nowrap"
               onClick={() => setShow(false)}
             >
-              <small className="fw-semibold historyTitle">{language === "english" ? "Deposit" : "ငွေသွင်း"}</small>
+              <small className="fw-semibold historyTitle">{content?.deposit}</small>
               <Badge className="ms-1 ms-sm-2" bg="secondary">
                 <small>{deposit && deposit.length}</small>
               </Badge>
@@ -136,7 +117,7 @@ const HistoryPage = () => {
               className="bg-white text-black  d-flex flex-nowrap"
               onClick={() => setShow(true)}
             >
-              <small className="fw-semibold historyTitle">{language === "english" ? "Withdraw" : "ငွေထုတ်"}</small>
+              <small className="fw-semibold historyTitle">{content?.withdraw}</small>
               <Badge className="ms-1 ms-sm-2" bg="secondary">
                 <small>{withdraw && withdraw.length}</small>
               </Badge>
@@ -145,7 +126,7 @@ const HistoryPage = () => {
         {!show && (
           <DataGrid
             rows={deposit}
-            columns={language === "english" ? deposits : deposits_mm}
+            columns={lan === "en" ? deposits : deposits_mm}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },
@@ -158,7 +139,7 @@ const HistoryPage = () => {
         {show && (
           <DataGrid
             rows={withdraw}
-            columns={language === "english" ? withdraws : withdraws_mm}
+            columns={lan === "en" ? withdraws : withdraws_mm}
             initialState={{
               pagination: {
                 paginationModel: { page: 0, pageSize: 5 },

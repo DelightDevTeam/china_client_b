@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../assets/images/logo.png';
 import { Form, Modal, Spinner } from 'react-bootstrap';
 import user from '../assets/images/user.png';
@@ -7,8 +7,10 @@ import useFetch from '../hooks/useFetch';
 import BASE_URL from '../hooks/baseURL';
 import { FaUser } from 'react-icons/fa';
 import { FaRegCircleUser, FaRightFromBracket } from 'react-icons/fa6';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
+  const { content } = useContext(AuthContext)
   const [isLoginOpen,setIsLoginOpen]=useState(false)
   const {data:user} = useFetch(BASE_URL + '/user')
   const [loader, setLoader] = useState(false);
@@ -29,7 +31,7 @@ const Navbar = () => {
           <div className='d-flex align-items-center gap-2'>
             <FaRegCircleUser className="" style={{ fontSize: "30px" }} />
             <div>
-              <small className='userNav fw-semibold d-block'>Name : {user && user.name}</small>
+              <small className='userNav fw-semibold d-block'>{content?.name} : {user && user.name}</small>
               <small className='userNav fw-semibold'>
                 <i className="fas fa-wallet"></i> : {user && Number(user.balance).toLocaleString()}</small>
             </div>

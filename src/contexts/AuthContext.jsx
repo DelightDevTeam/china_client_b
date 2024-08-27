@@ -19,13 +19,6 @@ const AuthContextProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [language, setLanguage] = useState("en");
   const [content, setContent] = useState(en_data);
-  const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (!token) {
-//       navigate('/login');
-//     }
-//   }, [token, navigate]);
 
   useEffect(() => {
     if (userData) {
@@ -33,21 +26,39 @@ const AuthContextProvider = ({ children }) => {
     }
   }, [userData]);
 
-//   useEffect(() => {
-//     if (error) {
-//       console.error("Failed to fetch user data:", error);
-//     }
-//   }, [error]);
+  useEffect(() => {
+    const lan = localStorage.getItem("lan");
+    if (lan) {
+      setLanguage(lan);
+    } else {
+      setLanguage("en");
+    }
+  }, []);
 
   const updateProfile = (newProfile) => setProfile(newProfile);
   const updateLanguage = (newLanguage) => {
-    setLanguage(newLanguage);
-    if (newLanguage === "en") {
-      setContent(en_data);
-    }else{
-      setContent(ch_data);
+    if (newLanguage !== language) { // Only update if the new language is different
+      let lan = localStorage.setItem("lan", newLanguage);
+      // Use the newLanguage directly to determine the content
+      setLanguage(newLanguage);
+      if (newLanguage === "ch") {
+        setContent(ch_data);
+      } else {
+        setContent(en_data);
+      }
     }
-  }
+  };
+
+  useEffect(() => {
+    if (language === "ch") {
+      setContent(ch_data);
+    } else {
+      setContent(en_data);
+    }
+  }, [language])
+
+
+  
 
   const value = useMemo(() => ({
     auth: token,

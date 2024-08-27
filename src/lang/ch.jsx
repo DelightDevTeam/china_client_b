@@ -32,7 +32,30 @@ const ch_data = {
     "wallet": "钱包",
     "game_record": "游戏记录",
     "transaction_record": "交易记录",
-    "profile": "个人资料"
+    "profile": "个人资料",
+    "choose_payment_method": "选择支付方式",
+    "amount": "金额",
+    "enter_amount": "输入金额",
+    "account_name": "账户名称",
+    "enter_account_name": "输入账户名称",
+    "account": "账户/电话",
+    "enter_account": "输入账户/电话",
+    "note": "备注",
+    "enter_note": "输入备注",
+    "enter_bank_name": "输入银行名称",
+    "game_logs": "游戏日志",
+    "transaction_logs": "交易日志",
+    "today": "今天",
+    "yesterday": "昨天",
+    "last_week": "上周",
+    "this_week": "本周",
+    "number": "编号",
+    "from_date": "开始日期",
+    "to_date": "结束日期",
+    "game_provider": "游戏提供商",
+    "count": "次数",
+    "bet_amount": "投注金额",
+    "trans_amount": "交易金额"
 };
 
 export default ch_data;
