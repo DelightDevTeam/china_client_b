@@ -28,9 +28,9 @@ const TopUpPage = () => {
   const [errMsg, setErrMsg] = useState("");
 
    const id = searchParams.get("bank");
-   const {data:banks} = useFetch(BASE_URL + '/agent-payment-type');
+   const {data:banks} = useFetch(BASE_URL + '/agent');
    const bank = banks && banks.find(bank => bank.id == parseInt(id));
-  //  console.log(ibd);
+   console.log(banks);
 
    const handleCopyText = () => {
         navigator.clipboard.writeText(bank?.account_no);

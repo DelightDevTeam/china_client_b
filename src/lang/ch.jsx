@@ -55,7 +55,16 @@ const ch_data = {
     "game_provider": "游戏提供商",
     "count": "次数",
     "bet_amount": "投注金额",
-    "trans_amount": "交易金额"
+    "trans_amount": "交易金额",
+    "login": "登录",
+    "register": "注册",
+    "enter_phone": "输入手机号",
+    "enter_password": "输入密码",
+    "enter_confirm_password": "确认密码",
+    "enter_code": "输入验证码",
+    "enter_name": "输入姓名",
+    "phone": "手机号",
+    "password": "密码"
 };
 
 export default ch_data;

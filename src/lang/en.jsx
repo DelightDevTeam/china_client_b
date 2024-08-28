@@ -60,7 +60,15 @@ const en_data = {
     "count": "Count",
     "bet_amount": "Bet Amount",
     "trans_amount": "Transaction Amount",
-    
+    "login": "Login",
+    "register": "Register",
+    "enter_phone": "Enter Phone",
+    "enter_password": "Enter Password",
+    "enter_confirm_password": "Enter Confirm Password",
+    "enter_code": "Enter Code",
+    "enter_name": "Enter Name",
+    "phone": "Phone",
+    "password": "Password",
 }
 
 export default en_data;

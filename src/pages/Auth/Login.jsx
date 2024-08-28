@@ -3,9 +3,23 @@ import logo from "../../assets/images/logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import BASE_URL from '../../hooks/baseURL';
+import en_data from '../../lang/en';
+import ch_data from '../../lang/ch';
 
 export default function Login() {
   const [eye, setEye] = useState(false);
+  
+  const [content, setContent] = useState(en_data);
+  const language = localStorage.getItem("lan");
+  useEffect(() => {
+      if(language === "en"){
+          setContent(en_data);
+      }
+      else if(language === "ch"){
+          setContent(ch_data);
+      }
+  }, [language]);
+
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [error , setError] = useState('');
@@ -16,7 +30,9 @@ export default function Login() {
     const navigate = useNavigate();
 
     const auth = localStorage.getItem('token');
-    const language = localStorage.getItem("lan");
+
+    // console.log(language);
+    
     
 
     useEffect(() => {
@@ -90,27 +106,27 @@ export default function Login() {
                         <img src={logo} width={100} className='rounded-3 shadow border border-warning' alt="" />
                     </div>
                     
-                    <h4 className="text-center">{language === "english" ? "Login" : "အကောင့်ဝင်ရန်"}</h4>
+                    <h4 className="text-center">{content?.login}</h4>
                     <form onSubmit={login}>
                         <div className="mb-3">
-                            <label htmlFor="" className="form-label">{language === "english" ? "Username" : "အမည်"}</label>
+                            <label htmlFor="" className="form-label">{content?.phone}</label>
                             <input type="text" 
                             className="form-control" 
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
-                            placeholder='Enter Phone'
+                            placeholder={content?.enter_phone}
                             />
                             {error && error.phone && <p className="text-danger">{error.phone}</p>}
                             {errMsg && <p className="text-danger">{errMsg}</p>}
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="" className="form-label">{language === "english" ? "Password" : "စကားဝှက်"}</label>
+                            <label htmlFor="" className="form-label">{content?.password}</label>
                             <div className="password">
                               <input type={`${eye ? "text" : "password"}`} 
                               className="form-control" 
                               value={password}
                               onChange={(e) => setPassword(e.target.value)}
-                              placeholder='Enter Password'
+                              placeholder={content?.enter_password}
                               />
                               <i className={`fas fa-${eye ? "eye-slash" : "eye"} cursor-pointer eye`} onClick={()=>setEye(!eye)}></i>
                             </div>
@@ -119,11 +135,11 @@ export default function Login() {
                         </div>
                         <div className="mt-2 mb-3">
                             {loading ? <Spinner /> : <button type='submit' className="btn btn-outline-light w-100">
-                              {language === "english" ? "Login" : "အကောင့်ဝင်ပါ"}
+                              {content?.login}
                             </button>}
                         </div>
                         <div className="text-center">
-                        <Link className='underline' to={'/register'}>အကောင့်ပြုလုပ်ရန်</Link>
+                        <Link className='underline' to={'/register'}>{content?.register}</Link>
                         </div>
                     </form>
                 </div>
