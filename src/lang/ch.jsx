@@ -63,6 +63,7 @@ const ch_data = {
     // Removed duplicate "enter_amount"
     "enter_confirm_password": "确认密码",
     "enter_code": "输入验证码",
+    "code": "推荐码",
     "password": "密码"
 };
 

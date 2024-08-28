@@ -10,9 +10,11 @@ import { FaRegCircleUser, FaRightFromBracket } from 'react-icons/fa6';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
-  const { content } = useContext(AuthContext)
+  const { content, user } = useContext(AuthContext);
+  console.log(user);
+  
   const [isLoginOpen,setIsLoginOpen]=useState(false)
-  const {data:user} = useFetch(BASE_URL + '/user')
+  // const {data:user} = useFetch(BASE_URL + '/user')
   const [loader, setLoader] = useState(false);
   const language = localStorage.getItem('lan');
   const auth = localStorage.getItem('token');
@@ -31,7 +33,7 @@ const Navbar = () => {
           <div className='d-flex align-items-center gap-2'>
             <FaRegCircleUser className="" style={{ fontSize: "30px" }} />
             <div>
-              <small className='userNav fw-semibold d-block'>{content?.name} : {user && user.name}</small>
+              <small className='userNav fw-semibold d-block'>{content?.name} : {user?.name}</small>
               <small className='userNav fw-semibold'>
                 <i className="fas fa-wallet"></i> : {user && Number(user.balance).toLocaleString()}</small>
             </div>

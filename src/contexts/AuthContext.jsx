@@ -19,6 +19,7 @@ const AuthContextProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
   const [language, setLanguage] = useState("en");
   const [content, setContent] = useState(en_data);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userData) {

@@ -5,6 +5,7 @@ import { Spinner } from "react-bootstrap";
 import BASE_URL from "../../hooks/baseURL";
 import en_data from "../../lang/en";
 import ch_data from "../../lang/ch";
+import axios from "axios";
 
 export default function Register() {
   const [content, setContent] = useState(en_data);
@@ -22,6 +23,7 @@ export default function Register() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [refCode, setRefCode] = useState("");
   const [error, setError] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState("");
@@ -39,7 +41,28 @@ export default function Register() {
 
   const register = async (e) => {
     e.preventDefault();
-  }
+    setLoading(true);
+    const inputData = {
+      name,
+      phone,
+      password,
+      password_confirmation: confirmPassword,
+      referral_code: refCode,
+    };
+    try {
+      const res = await axios.post(BASE_URL + "/register", inputData);
+      console.log(res.data);
+      
+      if (res.status === 200) {
+        setLoading(false);
+        localStorage.setItem("token", res.data.data.token);
+        navigate("/");
+      }
+    } catch (e) {
+      setLoading(false);
+      setError(e.response.data.errors);
+    }
+  };
 
   return (
     <div className="container mt-5">
@@ -55,9 +78,8 @@ export default function Register() {
               />
             </div>
 
-            <h4 className="text-center">
-              {content?.register}
-            </h4>
+            <h4 className="text-center">{content?.register}</h4>
+            {errMsg && <p className="text-danger">{errMsg}</p>}
             <form onSubmit={register}>
               <div className="mb-3">
                 <label htmlFor="" className="form-label">
@@ -70,8 +92,8 @@ export default function Register() {
                   onChange={(e) => setName(e.target.value)}
                   placeholder={content?.enter_name}
                 />
-                {error && error.user_name && (
-                  <p className="text-danger">{error.user_name}</p>
+                {error && error.name && (
+                  <p className="text-danger">{error.name}</p>
                 )}
                 {errMsg && <p className="text-danger">{errMsg}</p>}
               </div>
@@ -138,6 +160,22 @@ export default function Register() {
                 {error && error.confirmPassword && (
                   <p className="text-danger">{error.confirmPassword}</p>
                 )}
+              </div>
+              <div className="mb-3">
+                <label htmlFor="" className="form-label">
+                  {content.code}
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={refCode}
+                  onChange={(e) => setRefCode(e.target.value)}
+                  placeholder={content?.enter_code}
+                />
+                {error && error.referral_code && (
+                  <p className="text-danger">{error.referral_code}</p>
+                )}
+                {errMsg && <p className="text-danger">{errMsg}</p>}
               </div>
               <div className="mt-2 mb-3">
                 {loading ? (

@@ -62,6 +62,7 @@ const en_data = {
     "register": "Register",
     "enter_password": "Enter Password",
     "enter_confirm_password": "Enter Confirm Password",
+    "code": "Referral Code",
     "enter_code": "Enter Code",
     "password": "Password",
 }
