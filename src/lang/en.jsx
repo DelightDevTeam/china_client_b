@@ -1,18 +1,18 @@
 const en_data = {
-    "greeting" : "Welcome to RedBull",
-    "all_games" : "All Games",
-    "hot_games" : "Hot Games",
+    "greeting": "Welcome to RedBull",
+    "all_games": "All Games",
+    "hot_games": "Hot Games",
     "slot": "Slot",
     "casino": "Live Casino",
     "sports": "Sport Book",
     "fishing": "Fishing",
-    "account_setting" : "Account Setting",
+    "account_setting": "Account Setting",
     "language": "Language",
     "change_language": "Change Language",
     "logout": "Logout",
-    "deposit": "Deposit",
+    "deposit": "Deposit", // First occurrence
     "withdraw": "Withdraw",
-    "balance": "Balance",
+    "balance": "Balance", // First occurrence
     "win_loss_report": "Win/Loss Report",
     "change_password": "Change Password",
     "contact_to_agents": "Contact to Agents",
@@ -33,9 +33,7 @@ const en_data = {
     "game_record": "Game Record",
     "transaction_record": "Transaction Record",
     "profile": "Profile",
-    "balance": "Balance",
-    "deposit": "Deposit",
-    "withdraw": "Withdraw",
+    // Removed duplicate "balance" and "deposit"
     "choose_payment_method": "Choose Payment Method",
     "enter_amount": "Enter Amount",
     "account": "Account/Phone",
@@ -62,12 +60,9 @@ const en_data = {
     "trans_amount": "Transaction Amount",
     "login": "Login",
     "register": "Register",
-    "enter_phone": "Enter Phone",
     "enter_password": "Enter Password",
     "enter_confirm_password": "Enter Confirm Password",
     "enter_code": "Enter Code",
-    "enter_name": "Enter Name",
-    "phone": "Phone",
     "password": "Password",
 }
 

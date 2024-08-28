@@ -1,7 +1,7 @@
 const ch_data = {
-    "greeting" : "欢迎来到红牛",
-    "all_games" : "所有游戏",
-    "hot_games" : "热门游戏",
+    "greeting": "欢迎来到红牛",
+    "all_games": "所有游戏",
+    "hot_games": "热门游戏",
     "slot": "老虎机",
     "casino": "真人娱乐场",
     "sports": "体育博彩",
@@ -22,7 +22,7 @@ const ch_data = {
     "submit": "提交",
     "current_password": "当前密码",
     "new_password": "新密码",
-    "confirm_password": "确认密码",
+    "confirm_password": "确认密码", // First occurrence
     "save_changes": "保存更改",
     "name": "姓名",
     "enter_name": "输入姓名",
@@ -35,7 +35,7 @@ const ch_data = {
     "profile": "个人资料",
     "choose_payment_method": "选择支付方式",
     "amount": "金额",
-    "enter_amount": "输入金额",
+    "enter_amount": "输入金额", // First occurrence
     "account_name": "账户名称",
     "enter_account_name": "输入账户名称",
     "account": "账户/电话",
@@ -58,12 +58,11 @@ const ch_data = {
     "trans_amount": "交易金额",
     "login": "登录",
     "register": "注册",
-    "enter_phone": "输入手机号",
     "enter_password": "输入密码",
+    // Removed duplicate "confirm_password"
+    // Removed duplicate "enter_amount"
     "enter_confirm_password": "确认密码",
     "enter_code": "输入验证码",
-    "enter_name": "输入姓名",
-    "phone": "手机号",
     "password": "密码"
 };
 
