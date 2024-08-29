@@ -27,6 +27,9 @@ const ExchangeBank = () => {
 
   const { data: banks } = useFetch(BASE_URL + "/agent-payment-type");
   const [bank, setBank] = useState(null); // Start with a null state
+  const {data: payment_types} = useFetch(BASE_URL + "/payment-type");
+  // console.log(payment_types);
+  
   
   useEffect(() => {
     if (banks) {
@@ -214,8 +217,8 @@ const ExchangeBank = () => {
         )}
 
         {type === "with-draw" &&
-          banks &&
-          banks.map((item, index) => {
+          payment_types &&
+          payment_types.map((item, index) => {
             return (
               <div
                 onClick={() => {
