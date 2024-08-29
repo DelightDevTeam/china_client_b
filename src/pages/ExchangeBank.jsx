@@ -68,6 +68,17 @@ const ExchangeBank = () => {
       });
       return;
     }
+    if (refrence_no.length !== 6) {
+      setLoading(false);
+      toast.error("ငွေလွှဲ​နံပါတ် နောက်ဆုံးဂဏန်း၆လုံး ထည့်ပေးပါ။", {
+        position: "top-right",
+        autoClose: 1000,
+        theme: 'dark',
+        hideProgressBar: false,
+        closeOnClick: true
+      });
+      return;
+    }
 
     const inputData = {
       agent_payment_type_id: String(bank?.id),
@@ -198,7 +209,7 @@ const ExchangeBank = () => {
                       onChange={(e) => setRefrence_no(e.target.value)}
                       value={refrence_no}
                     />
-                    {error.refrence_no && <small>{error.refrence_no}</small>}
+                    {error.refrence_no && <small className="text-danger">{error.refrence_no}</small>}
                   </div>
                 </div>
               </div>

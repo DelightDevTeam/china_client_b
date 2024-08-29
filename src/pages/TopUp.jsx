@@ -75,7 +75,7 @@ const TopUpPage = () => {
       }
       if (transNo.length !== 6) {
         setLoading(false);
-        toast.error("ငွေလွှဲ​နံပါတ် နောက်ဆုံးဂဏန်း၆လုံး ထည့်ပေးပါ။", {
+        toast.error("ငွေလွှဲ​နံပါတ် နောက်ဆုံးဂဏန်း၄လုံး ထည့်ပေးပါ။", {
           position: "top-right",
           autoClose: 1000,
           theme: 'dark',

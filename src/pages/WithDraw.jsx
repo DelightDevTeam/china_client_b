@@ -182,6 +182,7 @@ const WithDrawPage = () => {
               value={amount}
               />
             </Form.Group>
+            {errMsg && <span className="text-danger">*{errMsg}</span>}
           </div>
           <div className="col-sm-6 pe-2">
             <Form.Group className="mb-4" controlId="exampleForm.ControlTextarea1">
