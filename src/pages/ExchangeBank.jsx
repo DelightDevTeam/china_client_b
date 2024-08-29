@@ -10,6 +10,7 @@ import { Spinner } from "react-bootstrap";
 const ExchangeBank = () => {
   const { auth, content } = useContext(AuthContext);
   const [bankId, setBankId] = useState("");
+  const [refrence_no, setRefrence_no] = useState("");
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -68,6 +69,7 @@ const ExchangeBank = () => {
     const inputData = {
       agent_payment_type_id: String(bank?.id),
       amount,
+      refrence_no
     };
 
     try {
@@ -114,11 +116,11 @@ const ExchangeBank = () => {
   
 
   return (
-    <div className="py-4 px-3 px-sm-4">
+    <div className="py-4 px-3 px-sm-4 pb-5">
       <ToastContainer />
       <CurrentBalance user={user} />
       <p className=" my-4 fw-bold">{content?.choose_payment_method}</p>
-      <div className="row">
+      <div className="row mb-5">
         {type === "top-up" && banks && (
           <>
             <div className="border border-light bg-transparent rounded-4 p-2 px-3 my-3 shadow-lg">
@@ -180,6 +182,20 @@ const ExchangeBank = () => {
                       value={amount}
                     />
                     {error.amount && <small>{error.amount}</small>}
+                  </div>
+                </div>
+              </div>
+              <div className="my-3">
+                <div className="row mb-2">
+                  <div className="text-white col-sm-3">{content?.code}</div>
+                  <div className="col-sm-9">
+                    <input
+                      type="number"
+                      className="form-control w-full"
+                      onChange={(e) => setRefrence_no(e.target.value)}
+                      value={refrence_no}
+                    />
+                    {error.refrence_no && <small>{error.refrence_no}</small>}
                   </div>
                 </div>
               </div>
