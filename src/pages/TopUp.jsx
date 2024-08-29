@@ -28,7 +28,7 @@ const TopUpPage = () => {
   const [errMsg, setErrMsg] = useState("");
 
    const id = searchParams.get("bank");
-   const {data:banks} = useFetch(BASE_URL + '/agent');
+   const {data:banks} = useFetch(BASE_URL + '/agent-payment-type');
    const bank = banks && banks.find(bank => bank.id == parseInt(id));
    console.log(banks);
 

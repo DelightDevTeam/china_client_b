@@ -11,7 +11,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const { content, user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
   
   const [isLoginOpen,setIsLoginOpen]=useState(false)
   // const {data:user} = useFetch(BASE_URL + '/user')

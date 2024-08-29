@@ -9,10 +9,11 @@ import { Spinner } from "react-bootstrap";
 
 const ExchangeBank = () => {
   const { auth, content } = useContext(AuthContext);
+  const [bankId, setBankId] = useState("");
   const [amount, setAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  
   const navigate = useNavigate();
   useEffect(() => {
     if (!auth) {
@@ -23,13 +24,18 @@ const ExchangeBank = () => {
 
   const type = searchParams.get("type");
 
-  const { data: agent } = useFetch(BASE_URL + "/agent");
-  const { data: banks } = useFetch(BASE_URL + "/payment-type");
-  const bank = banks?.filter((bank) => bank.id == agent?.payment_type_id)[0];
-  //   console.log(bank?.image_url);
+  const { data: banks } = useFetch(BASE_URL + "/agent-payment-type");
+  const [bank, setBank] = useState(null); // Start with a null state
+  
+  useEffect(() => {
+    if (banks) {
+      setBank(bankId ? banks?.find(bank => bank?.id === parseInt(bankId)) : banks[0]);
+    }
+  }, [banks, bankId]); 
+  // console.log(bank);
+  
 
   const { data: user } = useFetch(BASE_URL + "/user");
-  const language = localStorage.getItem("lan");
 
   const handleCopyText = () => {
     if (agent?.account_number) {
@@ -60,7 +66,7 @@ const ExchangeBank = () => {
     }
 
     const inputData = {
-      agent_payment_type_id: String(agent?.payment_type_id),
+      agent_payment_type_id: String(bank?.id),
       amount,
     };
 
@@ -104,6 +110,8 @@ const ExchangeBank = () => {
       setLoading(false);
     }
   };
+  // console.log(bankId);
+  
 
   return (
     <div className="py-4 px-3 px-sm-4">
@@ -111,7 +119,7 @@ const ExchangeBank = () => {
       <CurrentBalance user={user} />
       <p className=" my-4 fw-bold">{content?.choose_payment_method}</p>
       <div className="row">
-        {type === "top-up" && agent?.payment_type_name && (
+        {type === "top-up" && banks && (
           <>
             <div className="border border-light bg-transparent rounded-4 p-2 px-3 my-3 shadow-lg">
               <div className="d-flex justify-content-between align-items-center">
@@ -119,20 +127,18 @@ const ExchangeBank = () => {
                   <div>
                     <img
                       className="rounded-3 shadow"
-                      src={bank?.image_url}
+                      src={bank?.payment_type?.image_url}
                       width={100}
                       alt=""
                     />
                   </div>
                   <div className="ms-2">
                     <h6 className="fw-bold text-white">
-                      {agent?.payment_type_name}
+                      {bank?.payment_type?.name}
                     </h6>
+                    <h6 className="fw-bold text-white">{bank?.account_name}</h6>
                     <h6 className="fw-bold text-white">
-                      {agent?.account_name}
-                    </h6>
-                    <h6 className="fw-bold text-white">
-                      {agent?.account_number}
+                      {bank?.account_number}
                     </h6>
                   </div>
                 </div>
@@ -146,11 +152,26 @@ const ExchangeBank = () => {
             </div>
 
             <form onSubmit={deposit}>
+              <div className="mb-4">
+                <label htmlFor="" className="form-label">
+                  Choose Bank
+                </label>
+                <select
+                  className="form-control form-select"
+                  onChange={(e) => setBankId(e.target.value)}
+                  value={bankId}
+                >
+                  {banks &&
+                    banks.map((bank, index) => (
+                      <option key={index} value={bank.id}>
+                        {bank.payment_type.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
               <div className="my-3">
                 <div className="row mb-2">
-                  <div className="text-white col-sm-3">
-                    {content?.amount}
-                  </div>
+                  <div className="text-white col-sm-3">{content?.amount}</div>
                   <div className="col-sm-9">
                     <input
                       type="number"
@@ -169,9 +190,7 @@ const ExchangeBank = () => {
                 {loading ? (
                   <Spinner animation="border" size="sm" />
                 ) : (
-                  <h5 className="mx-sm-3">
-                    {content?.submit}
-                  </h5>
+                  <h5 className="mx-sm-3">{content?.submit}</h5>
                 )}
               </button>
             </form>
