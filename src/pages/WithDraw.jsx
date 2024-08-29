@@ -10,7 +10,7 @@ import { AuthContext } from "../contexts/AuthContext";
 const WithDrawPage = () => {
   const {auth, lan, content} = useContext(AuthContext);
   // const auth = localStorage.getItem("token");
-  console.log("hello");
+  // console.log("hello");
   
   const navigate = useNavigate();
   useEffect(() => {
